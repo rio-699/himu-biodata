@@ -2,8 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Himu, Web3 Community & Discord Specialist</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0c0c0b">
+<meta name="color-scheme" content="light dark">
+<title>Himu — Web3 Community & Discord Specialist</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 
@@ -14,680 +16,595 @@
     --grey:#6b6b6b;
     --line:#1e1e1e;
     --paper:#fafaf8;
+    --vh:1vh;
   }
 
   *{margin:0;padding:0;box-sizing:border-box;}
 
-  html{scroll-behavior:smooth;}
+  html,body{
+    height:100%;
+    height:100dvh;
+    overscroll-behavior:none;
+  }
 
   body{
     font-family:'Inter',Arial,Helvetica,sans-serif;
-    background:var(--paper);
+    background-color:#0c0c0b;
+    background-image:url('https://raw.githubusercontent.com/rio-699/Source/main/bio%20back%20ground.png');
+    background-repeat:no-repeat;
+    background-size:cover;
+    background-position:center;
     color:var(--black);
-    line-height:1.55;
+    line-height:1.5;
     -webkit-font-smoothing:antialiased;
-    overflow-x:hidden;
-  }
-
-  .wrap{max-width:1180px;margin:0 auto;padding:0 48px;}
-
-  /* ===== HEADER / HERO ===== */
-  header.hero{
-    background:var(--paper);
-    color:var(--black);
-    padding:90px 0 60px;
-    position:relative;
-  }
-  .hero-grid{
+    overflow:hidden;
+    position:fixed;
+    inset:0;
+    touch-action:none;
     display:flex;
     align-items:center;
-    justify-content:space-between;
-    gap:56px;
+    justify-content:center;
+    padding:clamp(10px,2.5vw,32px);
   }
-  .hero-text{flex:1 1 520px;min-width:280px;}
+
+  ::selection{background:var(--red);color:var(--white);}
+
+  /* ============ FRAME (boxed page) ============ */
+  .frame{
+    position:relative;
+    width:min(1180px, 100%);
+    height:min(560px, 100%);
+    background:var(--paper);
+    overflow:hidden;
+    border:1px solid #000;
+    box-shadow:0 50px 120px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.04);
+    transition:background .35s ease;
+  }
+
+  /* ============ THEME TOGGLE ============ */
+  .theme-toggle{
+    position:absolute;
+    top:14px;left:14px;
+    z-index:60;
+    width:34px;height:34px;
+    border:1px solid var(--black);
+    background:var(--paper);
+    color:var(--black);
+    cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    transition:background .2s ease,color .2s ease,border-color .2s ease;
+  }
+  .theme-toggle:hover{background:var(--red);border-color:var(--red);color:var(--white);}
+  .theme-toggle svg{width:16px;height:16px;}
+  .theme-toggle .i-moon{display:none;}
+  body[data-theme="dark"] .theme-toggle .i-sun{display:none;}
+  body[data-theme="dark"] .theme-toggle .i-moon{display:block;}
+
+  /* ============ DECK SHELL ============ */
+  .deck{
+    position:absolute;
+    inset:0;
+    background:var(--paper);
+    overflow:hidden;
+  }
+  .stage{
+    position:absolute;
+    inset:0;
+    perspective:2200px;
+    perspective-origin:50% 50%;
+  }
+
+  .slide{
+    position:absolute;
+    inset:0;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding:calc(var(--vh)*4) clamp(24px,6vw,72px);
+    transform-style:preserve-3d;
+    backface-visibility:hidden;
+    transition:transform .85s cubic-bezier(.65,0,.35,1), opacity .7s ease;
+    background:var(--paper);
+    color:var(--black);
+  }
+  .slide.dark{background:var(--black);color:var(--white);}
+
+  .ghost-num{
+    position:absolute;
+    top:calc(var(--vh)*4);
+    right:clamp(16px,4vw,56px);
+    font-size:clamp(90px, 24vh, 320px);
+    font-weight:900;
+    line-height:0.8;
+    color:var(--black);
+    opacity:0.05;
+    letter-spacing:-0.04em;
+    pointer-events:none;
+    user-select:none;
+  }
+  .slide.dark .ghost-num{color:var(--white);opacity:0.06;}
+
+  .slide-inner{
+    position:relative;
+    z-index:2;
+    opacity:0;
+    transform:translateY(14px);
+    transition:opacity .6s ease .12s, transform .6s ease .12s;
+    max-width:1180px;
+    width:100%;
+    margin:0 auto;
+  }
+  .slide.is-active .slide-inner{opacity:1;transform:translateY(0);}
+
+  .wrap{max-width:1180px;margin:0 auto;width:100%;}
+
+  .eyebrow{
+    font-size:clamp(11px,1.4vh,13px);
+    letter-spacing:0.04em;
+    color:var(--red);
+    font-weight:700;
+    margin-bottom:calc(var(--vh)*1.6);
+  }
+
+  .chap-head{
+    display:flex;
+    align-items:baseline;
+    gap:16px;
+    margin-bottom:calc(var(--vh)*3);
+    border-bottom:2px solid currentColor;
+    padding-bottom:calc(var(--vh)*1.4);
+  }
+  .chap-num{
+    font-size:clamp(20px,3vh,30px);
+    font-weight:900;
+    color:var(--red);
+    line-height:1;
+  }
+  .chap-title{
+    font-size:clamp(20px,3.6vh,34px);
+    font-weight:800;
+    letter-spacing:-0.01em;
+  }
+
+  p{font-size:clamp(13px,1.9vh,17px);color:#222;margin-bottom:calc(var(--vh)*1.6);max-width:640px;}
+  .slide.dark p{color:#d6d6d6;}
+  p:last-child{margin-bottom:0;}
+  .lede{font-size:clamp(15px,2.3vh,20px);font-weight:600;color:inherit;max-width:640px;margin-bottom:calc(var(--vh)*2);}
+
+  /* ============ HERO ============ */
+  .hero-grid{display:flex;align-items:center;justify-content:space-between;gap:clamp(24px,5vw,56px);flex-wrap:wrap;}
+  .hero-text{flex:1 1 480px;min-width:260px;}
   .hero-photo{
     flex:0 0 auto;
-    width:260px;
-    height:260px;
+    width:clamp(150px,22vh,260px);
+    height:clamp(150px,22vh,260px);
     border:2px solid var(--black);
     overflow:hidden;
     position:relative;
   }
   .hero-photo::after{
-    content:"";
-    position:absolute;
-    inset:0;
-    border:1px solid var(--red);
-    outline:6px solid var(--paper);
-    outline-offset:-6px;
-    pointer-events:none;
+    content:"";position:absolute;inset:0;border:1px solid var(--red);
+    outline:6px solid var(--paper);outline-offset:-6px;pointer-events:none;
   }
-  .hero-photo img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    display:block;
-    transform:scaleX(-1);
-  }
-  .hero-eyebrow{
-    font-size:13px;
-    letter-spacing:0.04em;
-    color:var(--red);
-    font-weight:700;
-    margin-bottom:20px;
-  }
-  .hero h1{
-    font-size:clamp(48px,8vw,84px);
-    font-weight:900;
-    line-height:0.95;
-    letter-spacing:-0.03em;
-    margin-bottom:24px;
-    color:var(--black);
-  }
-  .hero-role{
-    font-size:19px;
-    color:#4a4a4a;
-    font-weight:500;
-    max-width:520px;
-    margin-bottom:30px;
-  }
-  .hero-quote{
-    font-size:22px;
-    font-weight:600;
-    max-width:600px;
-    line-height:1.4;
-    color:var(--black);
-    border-left:3px solid var(--red);
-    padding-left:20px;
-  }
-  .hero-contacts{
-    margin-top:40px;
-    display:flex;
-    gap:20px;
-    flex-wrap:wrap;
-    font-size:14px;
-    color:#4a4a4a;
-  }
+  .hero-photo img{width:100%;height:100%;object-fit:cover;display:block;transform:scaleX(-1);}
+  .hero-eyebrow{font-size:clamp(11px,1.4vh,13px);letter-spacing:0.04em;color:var(--red);font-weight:700;margin-bottom:calc(var(--vh)*2);}
+  .hero h1{font-size:clamp(42px,11vh,88px);font-weight:900;line-height:0.92;letter-spacing:-0.03em;margin-bottom:calc(var(--vh)*2);}
+  .hero-role{font-size:clamp(14px,2vh,18px);color:#4a4a4a;font-weight:500;max-width:520px;margin-bottom:calc(var(--vh)*2.4);}
+  .hero-quote{font-size:clamp(15px,2.3vh,21px);font-weight:600;max-width:560px;line-height:1.4;border-left:3px solid var(--red);padding-left:18px;margin-bottom:0;}
+  .hero-contacts{margin-top:calc(var(--vh)*3);display:flex;gap:14px;flex-wrap:wrap;}
   .social-link{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    color:var(--black);
-    text-decoration:none;
-    border:1px solid #ccc8bf;
-    padding:9px 16px 9px 12px;
-    transition:border-color .15s ease, background .15s ease, color .15s ease;
+    display:flex;align-items:center;gap:9px;color:var(--black);text-decoration:none;
+    border:1px solid #ccc8bf;padding:8px 14px 8px 11px;
+    transition:border-color .15s ease, background .15s ease, color .15s ease, transform .2s ease;
   }
-  .social-link:hover{border-color:var(--red);background:var(--red);color:var(--white);}
-  .social-link:hover .social-icon{color:var(--white);}
-  .social-icon{
-    width:18px;
-    height:18px;
-    color:var(--black);
-    display:flex;
-  }
+  .social-link:hover{border-color:var(--red);background:var(--red);color:var(--white);transform:translateY(-2px);}
+  .social-icon{width:16px;height:16px;display:flex;}
   .social-icon svg{width:100%;height:100%;}
-  .social-label{font-size:14px;font-weight:600;}
+  .social-label{font-size:clamp(12px,1.5vh,14px);font-weight:600;}
 
-  /* ===== CHAPTER STRUCTURE ===== */
-  .chapter{
-    padding:64px 0;
-    border-bottom:1px solid #e4e2dc;
-  }
-  .chapter-head{
-    display:flex;
-    align-items:baseline;
-    gap:18px;
-    margin-bottom:28px;
-    border-bottom:2px solid var(--black);
-    padding-bottom:16px;
-  }
-  .chapter-num{
-    font-size:34px;
-    font-weight:900;
-    color:var(--red);
-    line-height:1;
-    letter-spacing:-0.01em;
-  }
-  .chapter-title{
-    font-size:26px;
-    font-weight:800;
-    letter-spacing:-0.01em;
-  }
-  .chapter-body{
-    display:block;
-  }
-  .chapter-content{max-width:100%;}
-  .chapter-content p{
-    font-size:16px;
-    color:#222;
-    margin-bottom:16px;
-  }
-  .chapter-content p:last-child{margin-bottom:0;}
-  .lede{
-    font-size:19px;
+  /* ============ CHIP LISTS ============ */
+  .chipset{display:flex;flex-wrap:wrap;gap:calc(var(--vh)*0.9) 10px;}
+  .chip{
+    border:1px solid var(--black);
+    padding:calc(var(--vh)*1) 14px;
+    font-size:clamp(11.5px,1.55vh,14px);
     font-weight:600;
-    color:var(--black);
-    margin-bottom:18px;
+    transform-style:preserve-3d;
+    transition:transform .25s ease, background .25s ease, color .25s ease;
+    cursor:default;
   }
+  .chip:hover{transform:translateZ(18px) translateY(-3px);background:var(--black);color:var(--white);}
+  .slide.dark .chip{border-color:#444;color:#eaeaea;}
+  .slide.dark .chip:hover{background:var(--red);border-color:var(--red);color:var(--white);}
 
-  /* skill grid */
-  .skill-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:0;
-    border-top:1px solid #ddd9d0;
-    margin-top:8px;
-  }
-  .skill-grid div{
-    padding:13px 0;
-    border-bottom:1px solid #ddd9d0;
-    font-size:15px;
-    font-weight:500;
-  }
-  .skill-grid div:nth-child(odd){padding-right:20px;border-right:1px solid #ddd9d0;}
-  .skill-grid div:nth-child(even){padding-left:20px;}
+  .col-heads{display:grid;grid-template-columns:1fr 1fr;gap:clamp(20px,4vw,44px);}
+  .col-heads h4{font-size:clamp(11px,1.4vh,13px);letter-spacing:0.03em;color:var(--grey);font-weight:700;margin-bottom:calc(var(--vh)*1.4);text-transform:uppercase;}
 
-  /* list with red markers */
-  .redlist{list-style:none;margin-top:6px;}
-  .redlist li{
-    position:relative;
-    padding-left:22px;
-    margin-bottom:11px;
-    font-size:15.5px;
-    color:#222;
-  }
-  .redlist li::before{
-    content:"";
-    background:var(--red);
-    width:8px;
-    height:8px;
-    position:absolute;
-    left:0;
-    top:7px;
-  }
+  /* ============ FLOW (ch06) ============ */
+  .flow{display:flex;flex-wrap:wrap;gap:0;margin:calc(var(--vh)*1) 0 calc(var(--vh)*2.4);font-weight:800;font-size:clamp(12px,1.7vh,16px);}
+  .flow span{padding:8px 14px;border:1px solid var(--black);background:var(--black);color:var(--white);}
+  .flow .arrow{padding:8px 6px;color:var(--red);font-weight:700;border:none;background:none;}
 
-  /* experience roles ch07 */
-  .role-list{
-    display:grid;
-    grid-template-columns:1fr 1fr 1fr;
-    gap:0;
-    border-top:1px solid #ddd9d0;
-    border-left:1px solid #ddd9d0;
-  }
-  .role{
-    padding:20px 20px;
-    border-right:1px solid #ddd9d0;
-    border-bottom:1px solid #ddd9d0;
-  }
-  .role-top{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    margin-bottom:6px;
-    flex-wrap:wrap;
-  }
-  .role-name{font-size:17px;font-weight:800;}
-  .role-status{
-    font-size:11px;
-    font-weight:700;
-    letter-spacing:0.02em;
-    padding:3px 8px;
-    border:1px solid var(--red);
-    color:var(--red);
-  }
+  /* ============ EXPERIENCE ============ */
+  .role-list{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;border-top:1px solid #ddd9d0;border-left:1px solid #ddd9d0;margin-bottom:calc(var(--vh)*2);}
+  .role{padding:calc(var(--vh)*1.8) 18px;border-right:1px solid #ddd9d0;border-bottom:1px solid #ddd9d0;transform-style:preserve-3d;transition:transform .25s ease;}
+  .role:hover{transform:translateZ(14px);}
+  .role-top{display:flex;align-items:center;gap:9px;margin-bottom:6px;flex-wrap:wrap;}
+  .role-name{font-size:clamp(14px,2vh,17px);font-weight:800;}
+  .role-status{font-size:10px;font-weight:700;letter-spacing:0.02em;padding:3px 7px;border:1px solid var(--red);color:var(--red);}
   .role-status.current{background:var(--red);color:var(--white);border-color:var(--red);}
-  .role-title{
-    font-size:13px;
-    color:var(--grey);
-    font-weight:600;
-    margin-bottom:10px;
-  }
-  .role p{font-size:14.5px;color:#333;margin-bottom:0;}
+  .role-title{font-size:clamp(11px,1.4vh,13px);color:var(--grey);font-weight:600;margin-bottom:6px;}
+  .role p{font-size:clamp(11.5px,1.5vh,13.5px);color:#333;margin-bottom:0;max-width:none;}
 
-  /* two column split for ch03/04 */
-  .split-two{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:40px;
-  }
-  .split-two h4{
-    font-size:13px;
-    letter-spacing:0.03em;
-    color:var(--grey);
-    font-weight:600;
-    margin-bottom:12px;
-    text-transform:uppercase;
-  }
+  /* ============ DIFF GRID (ch08) ============ */
+  .diff-grid{display:flex;flex-wrap:wrap;gap:1px;margin:calc(var(--vh)*2) 0 calc(var(--vh)*2.4);background:#333;border:1px solid #333;width:100%;}
+  .diff-grid div{flex:1 1 130px;padding:calc(var(--vh)*1.6) 16px;font-weight:700;font-size:clamp(12px,1.6vh,15px);background:var(--black);}
+  .diff-grid div.plus{flex:0 0 40px;color:var(--red);font-weight:900;font-size:16px;text-align:center;padding:calc(var(--vh)*1.6) 0;}
+  .lede.big{font-size:clamp(16px,2.6vh,25px);line-height:1.4;max-width:none;}
+  .split-two{display:grid;grid-template-columns:1fr 1fr;gap:clamp(20px,4vw,40px);}
+  .split-two p{max-width:none;}
 
-  /* workflow chain ch06 */
-  .flow{
-    display:flex;
-    flex-wrap:wrap;
-    gap:0;
-    margin:20px 0 26px;
-    font-weight:800;
-    font-size:16px;
-  }
-  .flow span{
-    padding:10px 16px;
-    border:1px solid var(--black);
-  }
-  .flow span.active{background:var(--black);color:var(--white);}
-  .flow .arrow{
-    padding:10px 8px;
-    color:var(--red);
-    font-weight:700;
-    border:none;
-  }
-
-  /* chapter 08 - different band */
-  .band-dark{
-    background:var(--black);
-    color:var(--white);
-    width:100vw;
-    margin-left:calc(50% - 50vw);
-    margin-right:calc(50% - 50vw);
-    padding-top:100px;
-    padding-bottom:100px;
-  }
-  .band-dark .chapter-title{color:var(--white);}
-  .band-dark .chapter-head{border-bottom-color:var(--red);}
-  .band-dark .chapter-content p{color:#d6d6d6;}
-  .band-dark .lede{color:var(--white);}
-  .diff-grid{
-    display:flex;
-    flex-wrap:wrap;
-    gap:1px;
-    margin:28px 0 34px;
-    background:#333;
-    border:1px solid #333;
-    width:100%;
-  }
-  .diff-grid div{
-    flex:1 1 150px;
-    padding:20px 18px;
-    text-align:left;
-    font-weight:700;
-    font-size:15px;
-    background:var(--black);
-  }
-  .diff-grid div.plus{
-    flex:0 0 46px;
-    color:var(--red);
-    font-weight:900;
-    font-size:18px;
-    text-align:center;
-    padding:20px 0;
-  }
-  .lede.big{font-size:26px;line-height:1.45;max-width:none;}
-
-  /* chapter 09 - direction tags */
-  .tag-row{
-    display:flex;
-    flex-wrap:wrap;
-    gap:10px;
-    margin-top:18px;
-  }
-  .tag{
-    border:1px solid var(--black);
-    padding:9px 16px;
-    font-size:14px;
-    font-weight:600;
-  }
-  .tag.hi{
-    background:var(--red);
-    border-color:var(--red);
-    color:var(--white);
-  }
-
-  /* footer contact */
-  footer{
-    background:var(--black);
-    color:var(--white);
-    padding:80px 0 60px;
-    text-align:left;
-  }
-  footer .foot-name{
-    font-size:44px;
-    font-weight:900;
-    letter-spacing:-0.02em;
-    margin-bottom:26px;
-  }
-  .foot-contacts{
-    display:flex;
-    gap:0;
-    flex-wrap:wrap;
-    border-top:1px solid #2a2a2a;
-  }
+  /* ============ CLOSING (ch09 + contacts) ============ */
+  .tag-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:calc(var(--vh)*1.6);margin-bottom:calc(var(--vh)*3);}
+  .tag{border:1px solid var(--black);padding:7px 14px;font-size:clamp(11.5px,1.5vh,13.5px);font-weight:600;}
+  .tag.hi{background:var(--red);border-color:var(--red);color:var(--white);}
+  .foot-contacts{display:flex;gap:0;flex-wrap:wrap;border-top:1px solid #2a2a2a;}
   .foot-contacts a{
-    flex:1;
-    min-width:180px;
-    padding:22px 0;
-    border-bottom:1px solid #2a2a2a;
-    display:flex;
-    align-items:center;
-    gap:14px;
-    color:var(--white);
-    text-decoration:none;
+    flex:1;min-width:170px;padding:calc(var(--vh)*1.8) 0;border-bottom:1px solid #2a2a2a;
+    display:flex;align-items:center;gap:12px;color:inherit;text-decoration:none;
   }
-  .foot-contacts a + a{padding-left:28px;}
+  .foot-contacts a+a{padding-left:24px;}
   .foot-contacts a:hover .value{color:var(--red);}
-  .foot-contacts .foot-icon{
-    width:26px;
-    height:26px;
-    color:var(--red);
-    flex-shrink:0;
-  }
+  .foot-contacts .foot-icon{width:22px;height:22px;color:var(--red);flex-shrink:0;}
   .foot-contacts .foot-icon svg{width:100%;height:100%;}
-  .foot-contacts .label{
-    font-size:12px;
-    color:#999;
-    font-weight:700;
-    letter-spacing:0.03em;
-    margin-bottom:4px;
+  .foot-contacts .label{font-size:11px;color:#999;font-weight:700;letter-spacing:0.03em;margin-bottom:3px;}
+  .foot-contacts .value{font-size:clamp(13px,1.8vh,16px);font-weight:600;transition:color .15s ease;}
+  .foot-name{font-size:clamp(26px,5vh,42px);font-weight:900;letter-spacing:-0.02em;margin-bottom:calc(var(--vh)*1.4);}
+
+  /* ============ HUD / NAVIGATION ============ */
+  .progress-rail{position:absolute;top:0;left:0;height:3px;background:var(--red);z-index:50;transition:width .5s ease;}
+
+  .dots{
+    position:absolute;
+    top:50%;right:clamp(10px,2.4vw,28px);
+    transform:translateY(-50%);
+    z-index:50;
+    display:flex;flex-direction:column;align-items:flex-end;gap:0;
   }
-  .foot-contacts .value{
-    font-size:17px;
-    font-weight:600;
-    transition:color .15s ease;
+  .dot-btn{
+    display:flex;align-items:center;gap:8px;background:none;border:none;cursor:pointer;
+    padding:6px 2px;color:var(--black);opacity:0.35;transition:opacity .2s ease;
   }
+  .dot-btn .n{font-size:10px;font-weight:700;letter-spacing:0.02em;}
+  .dot-btn .d{width:6px;height:6px;border-radius:50%;background:currentColor;transition:transform .2s ease,background .2s ease;}
+  .dot-btn.active{opacity:1;}
+  .dot-btn.active .d{background:var(--red);transform:scale(1.6);}
+  .dot-btn:hover{opacity:0.75;}
+  .slide.dark ~ .dots, body.on-dark .dots{color:var(--white);}
+  body.on-dark .dot-btn{color:var(--white);}
+  body.on-dark .dot-btn.active .d{background:var(--red);}
+
+  .counter{
+    position:absolute;left:clamp(18px,4vw,48px);bottom:clamp(16px,3.5vh,32px);
+    z-index:50;font-weight:800;font-size:clamp(13px,1.8vh,16px);
+    display:flex;align-items:baseline;gap:6px;color:var(--black);
+  }
+  .counter .sep{opacity:0.4;font-weight:500;}
+  .counter .tot{opacity:0.4;}
+  body.on-dark .counter{color:var(--white);}
+
+  .hint{
+    position:absolute;left:clamp(18px,4vw,48px);bottom:calc(clamp(16px,3.5vh,32px) + 26px);
+    z-index:50;font-size:11px;font-weight:600;letter-spacing:0.02em;color:var(--grey);
+    opacity:0.8;
+  }
+  body.on-dark .hint{color:#999;}
+  .hint.hidden{opacity:0;transition:opacity .6s ease;}
+
+  .arrow-btn{
+    position:absolute;bottom:clamp(16px,3.5vh,32px);z-index:50;
+    width:42px;height:42px;border:1px solid currentColor;background:none;
+    color:var(--black);cursor:pointer;font-size:18px;font-weight:700;
+    display:flex;align-items:center;justify-content:center;
+    transition:background .15s ease,color .15s ease;
+  }
+  .arrow-btn:hover{background:var(--black);color:var(--white);}
+  body.on-dark .arrow-btn{color:var(--white);}
+  body.on-dark .arrow-btn:hover{background:var(--white);color:var(--black);}
+  .arrow-btn.next{right:clamp(18px,4vw,48px);}
+  .arrow-btn.prev{right:calc(clamp(18px,4vw,48px) + 50px);}
+  .arrow-btn:disabled{opacity:0.25;cursor:default;}
+  .arrow-btn:disabled:hover{background:none;color:inherit;}
 
   @media (max-width:720px){
-    .wrap{padding:0 22px;}
-    .hero-grid{flex-direction:column-reverse;gap:32px;}
-    .hero-photo{width:180px;height:180px;}
-    .split-two{grid-template-columns:1fr;gap:26px;}
-    .skill-grid{grid-template-columns:1fr;}
-    .skill-grid div:nth-child(odd){border-right:none;padding-right:0;}
-    .skill-grid div:nth-child(even){padding-left:0;}
-    .diff-grid{flex-direction:column;}
-    .diff-grid div{border-right:none;border-bottom:1px solid #333;white-space:normal;}
-    .diff-grid div.plus{text-align:left;padding:12px 20px;}
+    body{padding:0;}
+    .frame{width:100%;height:100%;border:none;box-shadow:none;}
+    .dots{display:none;}
+    .hero-grid{flex-direction:column-reverse;gap:22px;justify-content:center;}
+    .col-heads{grid-template-columns:1fr;gap:18px;}
+    .split-two{grid-template-columns:1fr;gap:18px;}
     .role-list{grid-template-columns:1fr;}
     .role{border-right:none;}
-    .hero-quote{font-size:19px;}
+    .diff-grid{flex-direction:column;}
+    .diff-grid div.plus{text-align:left;padding:10px 16px;}
+    .ghost-num{font-size:22vh;top:calc(var(--vh)*2);}
+    .arrow-btn.prev{right:calc(clamp(18px,4vw,48px) + 50px);}
+    .slide{padding-top:calc(env(safe-area-inset-top) + var(--vh)*4);}
+    .theme-toggle{top:calc(env(safe-area-inset-top) + 10px);left:10px;width:32px;height:32px;}
+    .counter,.hint{left:calc(env(safe-area-inset-left) + 16px);}
+    .arrow-btn{bottom:calc(env(safe-area-inset-bottom) + 14px);}
   }
+
+  @media (prefers-reduced-motion:reduce){
+    .slide{transition:opacity .4s ease !important;}
+    .slide-inner{transition:opacity .3s ease !important;transform:none !important;}
+  }
+
+  /* ============ DARK THEME ============ */
+  body[data-theme="dark"]{background-color:#050505;}
+  body[data-theme="dark"] .frame{background:#121212;border-color:#000;}
+  body[data-theme="dark"] .deck{background:#121212;}
+  body[data-theme="dark"] .slide:not(.dark){background:#121212;color:#f0f0f0;}
+  body[data-theme="dark"] .slide:not(.dark) p{color:#c9c9c9;}
+  body[data-theme="dark"] .slide:not(.dark) .ghost-num{color:#ffffff;opacity:0.05;}
+  body[data-theme="dark"] .slide:not(.dark) .hero-role{color:#a8a8a8;}
+  body[data-theme="dark"] .slide:not(.dark) .col-heads h4{color:#9a9a9a;}
+  body[data-theme="dark"] .slide:not(.dark) .role-title{color:#9a9a9a;}
+  body[data-theme="dark"] .slide:not(.dark) .role p{color:#c2c2c2;}
+  body[data-theme="dark"] .slide:not(.dark) .role{border-color:#2c2c2c;}
+  body[data-theme="dark"] .slide:not(.dark) .chip{border-color:#3a3a3a;}
+  body[data-theme="dark"] .slide:not(.dark) .chip:hover{background:var(--red);border-color:var(--red);color:#fff;}
+  body[data-theme="dark"] .slide:not(.dark) .tag{border-color:#444;}
+  body[data-theme="dark"] .slide:not(.dark) .social-link{color:#eee;border-color:#3a3a3a;}
+  body[data-theme="dark"] .slide:not(.dark) .social-icon{color:#eee;}
+  body[data-theme="dark"] .slide:not(.dark) .hero-photo{border-color:#3a3a3a;}
+  body[data-theme="dark"] .slide:not(.dark) .hero-photo::after{outline-color:#121212;}
+  body[data-theme="dark"] .slide:not(.dark) .flow span{background:#242424;border-color:#3a3a3a;color:#f0f0f0;}
+  body[data-theme="dark"] .theme-toggle{background:#121212;border-color:#3a3a3a;color:#f0f0f0;}
+  body[data-theme="dark"] .counter,
+  body[data-theme="dark"] .hint,
+  body[data-theme="dark"] .dots,
+  body[data-theme="dark"] .dot-btn,
+  body[data-theme="dark"] .arrow-btn{color:#f0f0f0;}
+  body[data-theme="dark"] .arrow-btn{border-color:#f0f0f0;}
+  body[data-theme="dark"] .arrow-btn:hover{background:#f0f0f0;color:#121212;}
+  body[data-theme="dark"] .dot-btn.active .d{background:var(--red);}
 </style>
 </head>
 <body>
 
-<header class="hero">
-  <div class="wrap hero-grid">
-    <div class="hero-text">
-      <div class="hero-eyebrow">WEB3 COMMUNITY &amp; DISCORD SPECIALIST</div>
-      <h1>Himu</h1>
-      <p class="hero-role">Community operations, Discord infrastructure, and the tools that hold a Web3 ecosystem together.</p>
-      <p class="hero-quote">I build, manage, and improve the systems that keep Web3 communities active, organized, and scalable.</p>
-      <div class="hero-contacts">
-        <a class="social-link" href="https://discord.com/users/Himu_XYZ" target="_blank" rel="noopener noreferrer" aria-label="Discord">
-          <span class="social-icon">
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.369A19.791 19.791 0 0 0 15.885 3c-.211.375-.444.874-.608 1.267a18.27 18.27 0 0 0-5.487 0A12.6 12.6 0 0 0 9.182 3a19.736 19.736 0 0 0-4.435 1.37C1.87 8.318 1.16 12.157 1.515 15.944a19.9 19.9 0 0 0 5.993 2.98c.484-.65.916-1.34 1.288-2.064a12.9 12.9 0 0 1-2.03-.964c.17-.123.337-.252.498-.384a14.21 14.21 0 0 0 12.09 0c.163.132.33.261.498.384-.646.383-1.324.71-2.032.965.372.724.804 1.414 1.288 2.063a19.83 19.83 0 0 0 5.997-2.98c.417-4.39-.71-8.19-2.788-11.575ZM8.68 13.643c-.926 0-1.686-.849-1.686-1.892 0-1.043.744-1.893 1.686-1.893.95 0 1.71.858 1.686 1.893 0 1.043-.744 1.892-1.686 1.892Zm6.64 0c-.926 0-1.686-.849-1.686-1.892 0-1.043.744-1.893 1.686-1.893.95 0 1.71.858 1.686 1.893 0 1.043-.736 1.892-1.686 1.892Z"/></svg>
-          </span>
-          <span class="social-label">Himu_XYZ</span>
-        </a>
-        <a class="social-link" href="https://t.me/Himu_XYZ" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
-          <span class="social-icon">
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.944 4.463a1.5 1.5 0 0 0-1.53-.26L2.7 10.86a1.35 1.35 0 0 0 .073 2.548l4.552 1.44 1.76 5.61c.16.512.68.79 1.176.63.216-.07.4-.207.53-.39l2.56-3.61 4.79 3.55c.6.44 1.46.13 1.63-.6l3.29-14.4a1.5 1.5 0 0 0-.617-1.175ZM9.36 14.29l-1.06 3.39-.99-3.16 9.53-6.86-7.48 6.63Z"/></svg>
-          </span>
-          <span class="social-label">Himu_XYZ</span>
-        </a>
-        <a class="social-link" href="https://x.com/Himu_XYZ" target="_blank" rel="noopener noreferrer" aria-label="X">
-          <span class="social-icon">
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.451-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117l11.966 15.644Z"/></svg>
-          </span>
-          <span class="social-label">Himu_XYZ</span>
-        </a>
+<div class="frame" id="frame">
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+  <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  <svg class="i-moon" viewBox="0 0 24 24" fill="currentColor"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+</button>
+<div class="progress-rail" id="progressRail"></div>
+
+<div class="deck" id="deck">
+  <div class="stage" id="stage">
+
+    <!-- SLIDE 0 — HERO -->
+    <section class="slide" data-index="0">
+      <div class="slide-inner">
+        <div class="hero-grid">
+          <div class="hero-text">
+            <div class="hero-eyebrow">WEB3 COMMUNITY &amp; DISCORD SPECIALIST</div>
+            <h1>Himu</h1>
+            <p class="hero-role">Community operations, Discord infrastructure, and the tools that hold a Web3 ecosystem together.</p>
+            <p class="hero-quote">I build, manage, and improve the systems that keep Web3 communities active, organized, and scalable.</p>
+            <div class="hero-contacts">
+              <a class="social-link" href="https://discord.com/users/Himu_XYZ" target="_blank" rel="noopener noreferrer" aria-label="Discord">
+                <span class="social-icon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.369A19.791 19.791 0 0 0 15.885 3c-.211.375-.444.874-.608 1.267a18.27 18.27 0 0 0-5.487 0A12.6 12.6 0 0 0 9.182 3a19.736 19.736 0 0 0-4.435 1.37C1.87 8.318 1.16 12.157 1.515 15.944a19.9 19.9 0 0 0 5.993 2.98c.484-.65.916-1.34 1.288-2.064a12.9 12.9 0 0 1-2.03-.964c.17-.123.337-.252.498-.384a14.21 14.21 0 0 0 12.09 0c.163.132.33.261.498.384-.646.383-1.324.71-2.032.965.372.724.804 1.414 1.288 2.063a19.83 19.83 0 0 0 5.997-2.98c.417-4.39-.71-8.19-2.788-11.575ZM8.68 13.643c-.926 0-1.686-.849-1.686-1.892 0-1.043.744-1.893 1.686-1.893.95 0 1.71.858 1.686 1.893 0 1.043-.744 1.892-1.686 1.892Zm6.64 0c-.926 0-1.686-.849-1.686-1.892 0-1.043.744-1.893 1.686-1.893.95 0 1.71.858 1.686 1.893 0 1.043-.736 1.892-1.686 1.892Z"/></svg></span>
+                <span class="social-label">Himu_XYZ</span>
+              </a>
+              <a class="social-link" href="https://t.me/Himu_XYZ" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
+                <span class="social-icon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.944 4.463a1.5 1.5 0 0 0-1.53-.26L2.7 10.86a1.35 1.35 0 0 0 .073 2.548l4.552 1.44 1.76 5.61c.16.512.68.79 1.176.63.216-.07.4-.207.53-.39l2.56-3.61 4.79 3.55c.6.44 1.46.13 1.63-.6l3.29-14.4a1.5 1.5 0 0 0-.617-1.175ZM9.36 14.29l-1.06 3.39-.99-3.16 9.53-6.86-7.48 6.63Z"/></svg></span>
+                <span class="social-label">Himu_XYZ</span>
+              </a>
+              <a class="social-link" href="https://x.com/Himu_XYZ" target="_blank" rel="noopener noreferrer" aria-label="X">
+                <span class="social-icon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.451-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117l11.966 15.644Z"/></svg></span>
+                <span class="social-label">Himu_XYZ</span>
+              </a>
+            </div>
+          </div>
+          <div class="hero-photo" id="heroPhoto">
+            <img src="https://raw.githubusercontent.com/rio-699/Source/main/6zveWfoF_400x400%20%282%29.jpg" alt="Himu" onerror="this.onerror=null;this.src='https://github.com/rio-699/Source/raw/main/6zveWfoF_400x400%20%282%29.jpg';">
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="hero-photo">
-      <img src="https://raw.githubusercontent.com/rio-699/Source/main/6zveWfoF_400x400%20%282%29.jpg" alt="Himu" onerror="this.onerror=null;this.src='https://github.com/rio-699/Source/raw/main/6zveWfoF_400x400%20%282%29.jpg';">
-    </div>
-  </div>
-</header>
+    </section>
 
-<main class="wrap">
-
-  <!-- CHAPTER 01 -->
-  <section class="chapter">
-    <div class="chapter-head">
-      <div class="chapter-num">01</div>
-      <div class="chapter-title">Who I Am</div>
-    </div>
-    <div class="chapter-body">
-        <div class="chapter-content">
+    <!-- SLIDE 1 — 01 Who I Am -->
+    <section class="slide" data-index="1">
+      <div class="ghost-num">01</div>
+      <div class="slide-inner">
+        <div class="chap-head"><div class="chap-num">01</div><div class="chap-title">Who I Am</div></div>
         <p>I work at the point where Web3 projects and the people who use them actually meet. Hands-on experience running Discord communities, supporting users, and keeping ecosystems organized as they grow, covering everything from onboarding to moderation to the tools that make daily operations possible.</p>
         <p>Not a chat manager. An operator who understands the product, the people, and the systems connecting them.</p>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- CHAPTER 02 -->
-  <section class="chapter">
-    <div class="chapter-head">
-      <div class="chapter-num">02</div>
-      <div class="chapter-title">My Core Skills</div>
-    </div>
-    <div class="chapter-body">
-        <div class="chapter-content">
-        <div class="skill-grid">
-          <div>Web3 Community Management</div>
-          <div>Discord Community Operations</div>
-          <div>Discord Server Configuration</div>
-          <div>Discord Role &amp; Permission Management</div>
-          <div>Community Rules &amp; Structure</div>
-          <div>Ticket System Management</div>
-          <div>Anti-Scam &amp; Anti-Raid Setup</div>
-          <div>Discord Bot Management</div>
-          <div>Custom Discord Bot Development</div>
-          <div>Bot Testing &amp; Troubleshooting</div>
-          <div>Community Support</div>
-          <div>Regional Community Management</div>
-          <div>Community Engagement</div>
-          <div>Community Feedback Collection</div>
-          <div>Bug Reporting</div>
-          <div>Product Feedback</div>
-          <div>Community Tool Development</div>
-          <div>Community Workflow Optimization</div>
+    <!-- SLIDE 2 — 02 My Core Skills -->
+    <section class="slide" data-index="2">
+      <div class="ghost-num">02</div>
+      <div class="slide-inner">
+        <div class="chap-head"><div class="chap-num">02</div><div class="chap-title">My Core Skills</div></div>
+        <div class="chipset">
+          <div class="chip">Web3 Community Management</div>
+          <div class="chip">Discord Community Operations</div>
+          <div class="chip">Discord Server Configuration</div>
+          <div class="chip">Role &amp; Permission Management</div>
+          <div class="chip">Community Rules &amp; Structure</div>
+          <div class="chip">Ticket System Management</div>
+          <div class="chip">Anti-Scam &amp; Anti-Raid Setup</div>
+          <div class="chip">Discord Bot Management</div>
+          <div class="chip">Custom Discord Bot Development</div>
+          <div class="chip">Bot Testing &amp; Troubleshooting</div>
+          <div class="chip">Community Support</div>
+          <div class="chip">Regional Community Management</div>
+          <div class="chip">Community Engagement</div>
+          <div class="chip">Community Feedback Collection</div>
+          <div class="chip">Bug Reporting</div>
+          <div class="chip">Product Feedback</div>
+          <div class="chip">Community Tool Development</div>
+          <div class="chip">Community Workflow Optimization</div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- CHAPTER 03 -->
-  <section class="chapter">
-    <div class="chapter-head">
-      <div class="chapter-num">03</div>
-      <div class="chapter-title">Discord Is My Playground</div>
-    </div>
-    <div class="chapter-body">
-        <div class="chapter-content">
+    <!-- SLIDE 3 — 03 Discord Is My Playground -->
+    <section class="slide" data-index="3">
+      <div class="ghost-num">03</div>
+      <div class="slide-inner">
+        <div class="chap-head"><div class="chap-num">03</div><div class="chap-title">Discord Is My Playground</div></div>
         <p class="lede">I don't just use Discord. I understand how the entire system works.</p>
-        <div class="split-two">
+        <div class="col-heads">
           <div>
             <h4>Structure &amp; Access</h4>
-            <ul class="redlist">
-              <li>Server architecture</li>
-              <li>Roles and permissions</li>
-              <li>Channel structures</li>
-              <li>Verification systems</li>
-              <li>Reaction roles</li>
-              <li>Server onboarding</li>
-              <li>Community access systems</li>
-            </ul>
+            <div class="chipset">
+              <div class="chip">Server architecture</div>
+              <div class="chip">Roles &amp; permissions</div>
+              <div class="chip">Channel structures</div>
+              <div class="chip">Verification systems</div>
+              <div class="chip">Reaction roles</div>
+              <div class="chip">Server onboarding</div>
+              <div class="chip">Community access systems</div>
+            </div>
           </div>
           <div>
             <h4>Operations &amp; Safety</h4>
-            <ul class="redlist">
-              <li>Ticket systems</li>
-              <li>Moderation and security bots</li>
-              <li>Automation and bot configuration</li>
-              <li>Custom bot integration</li>
-              <li>Anti-spam and anti-scam systems</li>
-              <li>Troubleshooting server configuration</li>
-              <li>Improving the overall user experience</li>
-            </ul>
+            <div class="chipset">
+              <div class="chip">Ticket systems</div>
+              <div class="chip">Moderation &amp; security bots</div>
+              <div class="chip">Automation &amp; bot config</div>
+              <div class="chip">Custom bot integration</div>
+              <div class="chip">Anti-spam &amp; anti-scam</div>
+              <div class="chip">Config troubleshooting</div>
+              <div class="chip">UX improvements</div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- CHAPTER 04 -->
-  <section class="chapter">
-    <div class="chapter-head">
-      <div class="chapter-num">04</div>
-      <div class="chapter-title">I Build Tools, Not Just Communities</div>
-    </div>
-    <div class="chapter-body">
-        <div class="chapter-content">
-        <p>I look for the practical tool or system that fixes a real community problem, not the theoretical one.</p>
-        <ul class="redlist">
-          <li>Custom Discord bots</li>
-          <li>Community utility tools</li>
-          <li>Automated community workflows</li>
-          <li>Trader and community tools</li>
-          <li>Product-support utilities</li>
-          <li>Data-driven community tools</li>
-          <li>Bot testing and debugging</li>
-          <li>Building around actual community problems, not hypothetical ones</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- CHAPTER 05 -->
-  <section class="chapter">
-    <div class="chapter-head">
-      <div class="chapter-num">05</div>
-      <div class="chapter-title">Web3 Tooling &amp; Ecosystem Knowledge</div>
-    </div>
-    <div class="chapter-body">
-        <div class="chapter-content">
-        <p>Not a full-time developer. A technical community operator who understands products, tools, APIs, and data well enough to work closely with engineering teams.</p>
-        <ul class="redlist">
-          <li>Creating and working with Dune dashboards</li>
-          <li>DeFiLlama adapters</li>
-          <li>DeFi ecosystem data</li>
-          <li>On-chain and community analytics</li>
-          <li>Web3 product research</li>
-          <li>Understanding trading and DeFi products</li>
-          <li>Working with APIs and data-driven community tools</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- CHAPTER 06 -->
-  <section class="chapter">
-    <div class="chapter-head">
-      <div class="chapter-num">06</div>
-      <div class="chapter-title">How I Work</div>
-    </div>
-    <div class="chapter-body">
-        <div class="chapter-content">
-        <div class="flow">
-          <span class="active">Observe</span><span class="arrow">→</span>
-          <span class="active">Identify</span><span class="arrow">→</span>
-          <span class="active">Report</span><span class="arrow">→</span>
-          <span class="active">Improve</span><span class="arrow">→</span>
-          <span class="active">Build</span><span class="arrow">→</span>
-          <span class="active">Test</span>
+    <!-- SLIDE 4 — 04 I Build Tools -->
+    <section class="slide" data-index="4">
+      <div class="ghost-num">04</div>
+      <div class="slide-inner">
+        <div class="chap-head"><div class="chap-num">04</div><div class="chap-title">I Build Tools, Not Just Communities</div></div>
+        <p class="lede">I look for the practical tool or system that fixes a real community problem, not the theoretical one.</p>
+        <div class="chipset">
+          <div class="chip">Custom Discord bots</div>
+          <div class="chip">Community utility tools</div>
+          <div class="chip">Automated community workflows</div>
+          <div class="chip">Trader &amp; community tools</div>
+          <div class="chip">Product-support utilities</div>
+          <div class="chip">Data-driven community tools</div>
+          <div class="chip">Bot testing &amp; debugging</div>
+          <div class="chip">Built around real problems, not hypothetical ones</div>
         </div>
-        <ul class="redlist">
-          <li>Find problems before they become bigger community issues</li>
-          <li>Collect useful feedback directly from users</li>
-          <li>Communicate problems clearly to the team</li>
-          <li>Suggest practical, workable solutions</li>
-          <li>Test fixes before they ship</li>
-          <li>Build tools when existing solutions fall short</li>
-          <li>Keep communities organized and active</li>
-        </ul>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- CHAPTER 07 -->
-  <section class="chapter">
-    <div class="chapter-head">
-      <div class="chapter-num">07</div>
-      <div class="chapter-title">Experience</div>
-    </div>
-    <div class="chapter-body">
-        <div class="chapter-content">
+    <!-- SLIDE 5 — 05 Web3 Tooling -->
+    <section class="slide" data-index="5">
+      <div class="ghost-num">05</div>
+      <div class="slide-inner">
+        <div class="chap-head"><div class="chap-num">05</div><div class="chap-title">Web3 Tooling &amp; Ecosystem Knowledge</div></div>
+        <p class="lede">Not a full-time developer. A technical community operator who understands products, tools, APIs, and data well enough to work closely with engineering teams.</p>
+        <div class="chipset">
+          <div class="chip">Dune dashboards</div>
+          <div class="chip">DeFiLlama adapters</div>
+          <div class="chip">DeFi ecosystem data</div>
+          <div class="chip">On-chain &amp; community analytics</div>
+          <div class="chip">Web3 product research</div>
+          <div class="chip">Trading &amp; DeFi products</div>
+          <div class="chip">APIs &amp; data-driven tools</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 6 — 06 How I Work -->
+    <section class="slide" data-index="6">
+      <div class="ghost-num">06</div>
+      <div class="slide-inner">
+        <div class="chap-head"><div class="chap-num">06</div><div class="chap-title">How I Work</div></div>
+        <div class="flow">
+          <span>Observe</span><span class="arrow">→</span>
+          <span>Identify</span><span class="arrow">→</span>
+          <span>Report</span><span class="arrow">→</span>
+          <span>Improve</span><span class="arrow">→</span>
+          <span>Build</span><span class="arrow">→</span>
+          <span>Test</span>
+        </div>
+        <div class="chipset">
+          <div class="chip">Find problems before they grow</div>
+          <div class="chip">Collect feedback directly from users</div>
+          <div class="chip">Communicate clearly to the team</div>
+          <div class="chip">Suggest practical solutions</div>
+          <div class="chip">Test fixes before they ship</div>
+          <div class="chip">Build tools when solutions fall short</div>
+          <div class="chip">Keep communities organized &amp; active</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 7 — 07 Experience -->
+    <section class="slide" data-index="7">
+      <div class="ghost-num">07</div>
+      <div class="slide-inner">
+        <div class="chap-head"><div class="chap-num">07</div><div class="chap-title">Experience</div></div>
         <div class="role-list">
           <div class="role">
-            <div class="role-top">
-              <span class="role-name">Popdex</span>
-              <span class="role-status current">Current</span>
-            </div>
+            <div class="role-top"><span class="role-name">Popdex</span><span class="role-status current">Current</span></div>
             <div class="role-title">Community Moderator</div>
-            <p>Day-to-day moderation, ticket support, and Discord operations for an active trading community, plus ongoing bot testing and community tool work.</p>
+            <p>Day-to-day moderation, ticket support, and Discord operations for an active trading community, plus ongoing bot testing.</p>
           </div>
           <div class="role">
-            <div class="role-top">
-              <span class="role-name">Utexo</span>
-            </div>
+            <div class="role-top"><span class="role-name">Utexo</span></div>
             <div class="role-title">Regional Moderator</div>
             <p>Regional community moderation, member support, and localized engagement across the project's Discord.</p>
           </div>
           <div class="role">
-            <div class="role-top">
-              <span class="role-name">K25.AI</span>
-            </div>
+            <div class="role-top"><span class="role-name">K25.AI</span></div>
             <div class="role-title">Community Moderator</div>
             <p>Community support, moderation, and feedback collection during the project's early community growth.</p>
           </div>
         </div>
-        <ul class="redlist" style="margin-top:26px;">
-          <li>Web3 community operations across active ecosystem projects</li>
-          <li>Discord server setup, moderation, and bot systems</li>
-          <li>Direct community support and regional community management</li>
-          <li>Product feedback and bug reporting loops with core teams</li>
-          <li>Community tool builds addressing real, recurring problems</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- CHAPTER 08 -->
-  <section class="chapter band-dark">
-    <div class="wrap">
-      <div class="chapter-head">
-        <div class="chapter-num">08</div>
-        <div class="chapter-title">What Makes Me Different</div>
-      </div>
-      <div class="chapter-body">
-        <div class="chapter-content">
-          <div class="diff-grid">
-            <div>Community</div>
-            <div class="plus">+</div>
-            <div>Discord</div>
-            <div class="plus">+</div>
-            <div>Tools</div>
-            <div class="plus">+</div>
-            <div>Web3</div>
-            <div class="plus">+</div>
-            <div>Problem Solving</div>
-          </div>
-          <p class="lede big">I understand the people using the product, the community around the product, and the tools that keep that community running.</p>
-          <div class="split-two">
-            <p>Most people are strong in one of these areas. Community, Discord, tools, Web3, problem solving.</p>
-            <p>I operate across all five at once, which is what lets me work close to both the community and the team behind it.</p>
-          </div>
+        <div class="chipset">
+          <div class="chip">Web3 community operations</div>
+          <div class="chip">Discord setup, moderation &amp; bots</div>
+          <div class="chip">Regional community management</div>
+          <div class="chip">Feedback &amp; bug-report loops with teams</div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- CHAPTER 09 -->
-  <section class="chapter" style="border-bottom:none;">
-    <div class="chapter-head">
-      <div class="chapter-num">09</div>
-      <div class="chapter-title">Current Direction</div>
-    </div>
-    <div class="chapter-body">
-        <div class="chapter-content">
+    <!-- SLIDE 8 — 08 What Makes Me Different (dark) -->
+    <section class="slide dark" data-index="8">
+      <div class="ghost-num">08</div>
+      <div class="slide-inner">
+        <div class="chap-head"><div class="chap-num">08</div><div class="chap-title">What Makes Me Different</div></div>
+        <div class="diff-grid">
+          <div>Community</div><div class="plus">+</div>
+          <div>Discord</div><div class="plus">+</div>
+          <div>Tools</div><div class="plus">+</div>
+          <div>Web3</div><div class="plus">+</div>
+          <div>Problem Solving</div>
+        </div>
+        <p class="lede big">I understand the people using the product, the community around the product, and the tools that keep that community running.</p>
+        <div class="split-two">
+          <p>Most people are strong in one of these areas — community, Discord, tools, Web3, problem solving.</p>
+          <p>I operate across all five at once, which is what lets me work close to both the community and the team behind it.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 9 — 09 Current Direction + Contact -->
+    <section class="slide" data-index="9">
+      <div class="ghost-num">09</div>
+      <div class="slide-inner">
+        <div class="chap-head"><div class="chap-num">09</div><div class="chap-title">Current Direction</div></div>
         <p>Looking to work where community, Discord infrastructure, and Web3 products intersect.</p>
         <div class="tag-row">
           <span class="tag hi">Web3 Community Manager</span>
@@ -698,35 +615,188 @@
           <span class="tag">Discord Admin</span>
           <span class="tag">Moderator</span>
           <span class="tag">Community Growth</span>
-          <span class="tag">Regional Community Lead</span>
-          <span class="tag">Community &amp; Ecosystem Operations</span>
-          <span class="tag">Web3 Community Tools Specialist</span>
+        </div>
+        <div class="foot-name">Himu</div>
+        <div class="foot-contacts">
+          <a href="https://discord.com/users/Himu_XYZ" target="_blank" rel="noopener noreferrer" aria-label="Discord">
+            <span class="foot-icon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.369A19.791 19.791 0 0 0 15.885 3c-.211.375-.444.874-.608 1.267a18.27 18.27 0 0 0-5.487 0A12.6 12.6 0 0 0 9.182 3a19.736 19.736 0 0 0-4.435 1.37C1.87 8.318 1.16 12.157 1.515 15.944a19.9 19.9 0 0 0 5.993 2.98c.484-.65.916-1.34 1.288-2.064a12.9 12.9 0 0 1-2.03-.964c.17-.123.337-.252.498-.384a14.21 14.21 0 0 0 12.09 0c.163.132.33.261.498.384-.646.383-1.324.71-2.032.965.372.724.804 1.414 1.288 2.063a19.83 19.83 0 0 0 5.997-2.98c.417-4.39-.71-8.19-2.788-11.575ZM8.68 13.643c-.926 0-1.686-.849-1.686-1.892 0-1.043.744-1.893 1.686-1.893.95 0 1.71.858 1.686 1.893 0 1.043-.744 1.892-1.686 1.892Zm6.64 0c-.926 0-1.686-.849-1.686-1.892 0-1.043.744-1.893 1.686-1.893.95 0 1.71.858 1.686 1.893 0 1.043-.736 1.892-1.686 1.892Z"/></svg></span>
+            <span><div class="label">DISCORD</div><div class="value">Himu_XYZ</div></span>
+          </a>
+          <a href="https://t.me/Himu_XYZ" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
+            <span class="foot-icon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.944 4.463a1.5 1.5 0 0 0-1.53-.26L2.7 10.86a1.35 1.35 0 0 0 .073 2.548l4.552 1.44 1.76 5.61c.16.512.68.79 1.176.63.216-.07.4-.207.53-.39l2.56-3.61 4.79 3.55c.6.44 1.46.13 1.63-.6l3.29-14.4a1.5 1.5 0 0 0-.617-1.175ZM9.36 14.29l-1.06 3.39-.99-3.16 9.53-6.86-7.48 6.63Z"/></svg></span>
+            <span><div class="label">TELEGRAM</div><div class="value">Himu_XYZ</div></span>
+          </a>
+          <a href="https://x.com/Himu_XYZ" target="_blank" rel="noopener noreferrer" aria-label="X">
+            <span class="foot-icon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.451-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117l11.966 15.644Z"/></svg></span>
+            <span><div class="label">X</div><div class="value">Himu_XYZ</div></span>
+          </a>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-</main>
-
-<footer>
-  <div class="wrap">
-    <div class="foot-name">Himu</div>
-    <div class="foot-contacts">
-      <a href="https://discord.com/users/Himu_XYZ" target="_blank" rel="noopener noreferrer" aria-label="Discord">
-        <span class="foot-icon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.369A19.791 19.791 0 0 0 15.885 3c-.211.375-.444.874-.608 1.267a18.27 18.27 0 0 0-5.487 0A12.6 12.6 0 0 0 9.182 3a19.736 19.736 0 0 0-4.435 1.37C1.87 8.318 1.16 12.157 1.515 15.944a19.9 19.9 0 0 0 5.993 2.98c.484-.65.916-1.34 1.288-2.064a12.9 12.9 0 0 1-2.03-.964c.17-.123.337-.252.498-.384a14.21 14.21 0 0 0 12.09 0c.163.132.33.261.498.384-.646.383-1.324.71-2.032.965.372.724.804 1.414 1.288 2.063a19.83 19.83 0 0 0 5.997-2.98c.417-4.39-.71-8.19-2.788-11.575ZM8.68 13.643c-.926 0-1.686-.849-1.686-1.892 0-1.043.744-1.893 1.686-1.893.95 0 1.71.858 1.686 1.893 0 1.043-.744 1.892-1.686 1.892Zm6.64 0c-.926 0-1.686-.849-1.686-1.892 0-1.043.744-1.893 1.686-1.893.95 0 1.71.858 1.686 1.893 0 1.043-.736 1.892-1.686 1.892Z"/></svg></span>
-        <span><div class="label">DISCORD</div><div class="value">Himu_XYZ</div></span>
-      </a>
-      <a href="https://t.me/Himu_XYZ" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
-        <span class="foot-icon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.944 4.463a1.5 1.5 0 0 0-1.53-.26L2.7 10.86a1.35 1.35 0 0 0 .073 2.548l4.552 1.44 1.76 5.61c.16.512.68.79 1.176.63.216-.07.4-.207.53-.39l2.56-3.61 4.79 3.55c.6.44 1.46.13 1.63-.6l3.29-14.4a1.5 1.5 0 0 0-.617-1.175ZM9.36 14.29l-1.06 3.39-.99-3.16 9.53-6.86-7.48 6.63Z"/></svg></span>
-        <span><div class="label">TELEGRAM</div><div class="value">Himu_XYZ</div></span>
-      </a>
-      <a href="https://x.com/Himu_XYZ" target="_blank" rel="noopener noreferrer" aria-label="X">
-        <span class="foot-icon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.451-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117l11.966 15.644Z"/></svg></span>
-        <span><div class="label">X</div><div class="value">Himu_XYZ</div></span>
-      </a>
-    </div>
   </div>
-</footer>
+
+  <button class="arrow-btn prev" id="prevBtn" aria-label="Previous slide">‹</button>
+  <button class="arrow-btn next" id="nextBtn" aria-label="Next slide">›</button>
+</div>
+
+<nav class="dots" id="dots" aria-label="Slide navigation"></nav>
+<div class="hint" id="hint">Scroll, swipe, or use arrow keys</div>
+<div class="counter"><span id="curNum">01</span><span class="sep">/</span><span class="tot" id="totNum">10</span></div>
+</div>
+
+<script>
+(function(){
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const total = slides.length;
+  const stage = document.getElementById('stage');
+  const dotsWrap = document.getElementById('dots');
+  const progressRail = document.getElementById('progressRail');
+  const curNumEl = document.getElementById('curNum');
+  const totNumEl = document.getElementById('totNum');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const hint = document.getElementById('hint');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // theme toggle
+  const themeToggle = document.getElementById('themeToggle');
+  const savedTheme = (() => { try { return localStorage.getItem('himu-theme'); } catch(e){ return null; } })();
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  let theme = savedTheme || 'light';
+  function applyTheme(t){
+    theme = t;
+    if (t === 'dark'){ document.body.setAttribute('data-theme','dark'); }
+    else { document.body.removeAttribute('data-theme'); }
+    try { localStorage.setItem('himu-theme', t); } catch(e){}
+  }
+  applyTheme(theme);
+  themeToggle.addEventListener('click', () => applyTheme(theme === 'dark' ? 'light' : 'dark'));
+
+  totNumEl.textContent = String(total).padStart(2,'0');
+
+  // build dot nav
+  slides.forEach((s, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'dot-btn';
+    btn.innerHTML = '<span class="n">' + String(i).padStart(2,'0') + '</span><span class="d"></span>';
+    btn.addEventListener('click', () => goTo(i));
+    dotsWrap.appendChild(btn);
+  });
+  const dotBtns = Array.from(dotsWrap.children);
+
+  let current = 0;
+  let animating = false;
+  const DURATION = reduceMotion ? 420 : 850;
+
+  const frame = document.getElementById('frame');
+  function setVh(){
+    const h = frame.getBoundingClientRect().height || window.innerHeight;
+    document.documentElement.style.setProperty('--vh', (h * 0.01) + 'px');
+  }
+  setVh();
+  window.addEventListener('resize', setVh);
+
+  function render(){
+    slides.forEach((slide, idx) => {
+      const diff = idx - current;
+      const absDiff = Math.min(Math.abs(diff), 3);
+      slide.classList.toggle('is-active', diff === 0);
+
+      if (diff === 0){
+        slide.style.transform = 'translateX(0) translateZ(0) rotateY(0deg) scale(1)';
+        slide.style.opacity = '1';
+        slide.style.zIndex = '10';
+        slide.style.pointerEvents = 'auto';
+      } else {
+        const dir = diff > 0 ? 1 : -1;
+        const tx = dir * 58;
+        const tz = -420 - (absDiff - 1) * 160;
+        const rot = dir * -22;
+        const scale = Math.max(0.7, 1 - absDiff * 0.08);
+        const op = absDiff > 2 ? 0 : Math.max(0, 0.5 - (absDiff - 1) * 0.35);
+        slide.style.transform = 'translateX(' + tx + '%) translateZ(' + tz + 'px) rotateY(' + rot + 'deg) scale(' + scale + ')';
+        slide.style.opacity = String(op);
+        slide.style.zIndex = String(10 - absDiff);
+        slide.style.pointerEvents = 'none';
+      }
+    });
+
+    dotBtns.forEach((b, i) => b.classList.toggle('active', i === current));
+    curNumEl.textContent = String(current + 1).padStart(2,'0');
+    progressRail.style.width = ((current + 1) / total * 100) + '%';
+    prevBtn.disabled = current === 0;
+    nextBtn.disabled = current === total - 1;
+    document.body.classList.toggle('on-dark', slides[current].classList.contains('dark'));
+  }
+
+  function goTo(idx){
+    idx = Math.max(0, Math.min(total - 1, idx));
+    if (idx === current || animating) return;
+    current = idx;
+    animating = true;
+    render();
+    if (hint) hint.classList.add('hidden');
+    window.clearTimeout(goTo._t);
+    goTo._t = window.setTimeout(() => { animating = false; }, DURATION);
+  }
+
+  function next(){ goTo(current + 1); }
+  function prev(){ goTo(current - 1); }
+
+  prevBtn.addEventListener('click', prev);
+  nextBtn.addEventListener('click', next);
+
+  // keyboard
+  window.addEventListener('keydown', (e) => {
+    if (['ArrowDown','ArrowRight','PageDown',' '].includes(e.key)){ e.preventDefault(); next(); }
+    else if (['ArrowUp','ArrowLeft','PageUp'].includes(e.key)){ e.preventDefault(); prev(); }
+    else if (e.key === 'Home'){ e.preventDefault(); goTo(0); }
+    else if (e.key === 'End'){ e.preventDefault(); goTo(total - 1); }
+  });
+
+  // wheel
+  let wheelCooldown = false;
+  window.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    if (wheelCooldown || animating) return;
+    if (Math.abs(e.deltaY) < 12 && Math.abs(e.deltaX) < 12) return;
+    const delta = Math.abs(e.deltaY) > Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
+    if (delta > 0) next(); else prev();
+    wheelCooldown = true;
+    window.setTimeout(() => { wheelCooldown = false; }, DURATION + 60);
+  }, { passive:false });
+
+  // touch swipe
+  let touchStartX = 0, touchStartY = 0, touching = false;
+  window.addEventListener('touchstart', (e) => {
+    if (!e.touches || !e.touches.length) return;
+    touching = true;
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+  }, { passive:true });
+
+  window.addEventListener('touchmove', (e) => { if (touching) e.preventDefault(); }, { passive:false });
+
+  window.addEventListener('touchend', (e) => {
+    if (!touching) return;
+    touching = false;
+    const t = e.changedTouches[0];
+    const dx = t.clientX - touchStartX;
+    const dy = t.clientY - touchStartY;
+    const absX = Math.abs(dx), absY = Math.abs(dy);
+    if (Math.max(absX, absY) < 40) return;
+    if (absY >= absX){
+      if (dy < 0) next(); else prev();
+    } else {
+      if (dx < 0) next(); else prev();
+    }
+  });
+
+  render();
+  window.setTimeout(() => { if (hint) hint.classList.add('hidden'); }, 4500);
+})();
+</script>
 
 </body>
 </html>
