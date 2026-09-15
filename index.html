@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Himu, Web3 Community & Discord Specialist</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+  :root{
+    --black:#000000;
+    --white:#ffffff;
+    --red:#e0272a;
+    --grey:#6b6b6b;
+    --line:#1e1e1e;
+    --paper:#fafaf8;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    font-family:'Inter',Arial,Helvetica,sans-serif;
+    background:var(--paper);
+    color:var(--black);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+
+  .wrap{max-width:1180px;margin:0 auto;padding:0 48px;}
+
+  /* ===== HEADER / HERO ===== */
+  header.hero{
+    background:var(--paper);
+    color:var(--black);
+    padding:90px 0 60px;
+    position:relative;
+  }
+  .hero-grid{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:56px;
+  }
+  .hero-text{flex:1 1 520px;min-width:280px;}
+  .hero-photo{
+    flex:0 0 auto;
+    width:260px;
+    height:260px;
+    border:2px solid var(--black);
+    overflow:hidden;
+    position:relative;
+  }
+  .hero-photo::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    border:1px solid var(--red);
+    outline:6px solid var(--paper);
+    outline-offset:-6px;
+    pointer-events:none;
+  }
+  .hero-photo img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    transform:scaleX(-1);
+  }
+  .hero-eyebrow{
+    font-size:13px;
+    letter-spacing:0.04em;
+    color:var(--red);
+    font-weight:700;
+    margin-bottom:20px;
+  }
+  .hero h1{
+    font-size:clamp(48px,8vw,84px);
+    font-weight:900;
+    line-height:0.95;
+    letter-spacing:-0.03em;
+    margin-bottom:24px;
+    color:var(--black);
+  }
+  .hero-role{
+    font-size:19px;
+    color:#4a4a4a;
+    font-weight:500;
+    max-width:520px;
+    margin-bottom:30px;
+  }
+  .hero-quote{
+    font-size:22px;
+    font-weight:600;
+    max-width:600px;
+    line-height:1.4;
+    color:var(--black);
+    border-left:3px solid var(--red);
+    padding-left:20px;
+  }
+  .hero-contacts{
+    margin-top:40px;
+    display:flex;
+    gap:20px;
+    flex-wrap:wrap;
+    font-size:14px;
+    color:#4a4a4a;
+  }
+  .social-link{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color:var(--black);
+    text-decoration:none;
+    border:1px solid #ccc8bf;
+    padding:9px 16px 9px 12px;
+    transition:border-color .15s ease, background .15s ease, color .15s ease;
+  }
+  .social-link:hover{border-color:var(--red);background:var(--red);color:var(--white);}
+  .social-link:hover .social-icon{color:var(--white);}
+  .social-icon{
+    width:18px;
+    height:18px;
+    color:var(--black);
+    display:flex;
+  }
+  .social-icon svg{width:100%;height:100%;}
+  .social-label{font-size:14px;font-weight:600;}
+
+  /* ===== CHAPTER STRUCTURE ===== */
+  .chapter{
+    padding:64px 0;
+    border-bottom:1px solid #e4e2dc;
+  }
+  .chapter-head{
+    display:flex;
+    align-items:baseline;
+    gap:18px;
+    margin-bottom:28px;
+    border-bottom:2px solid var(--black);
+    padding-bottom:16px;
+  }
+  .chapter-num{
+    font-size:34px;
+    font-weight:900;
+    color:var(--red);
+    line-height:1;
+    letter-spacing:-0.01em;
+  }
+  .chapter-title{
+    font-size:26px;
+    font-weight:800;
+    letter-spacing:-0.01em;
+  }
+  .chapter-body{
+    display:block;
+  }
+  .chapter-content{max-width:100%;}
+  .chapter-content p{
+    font-size:16px;
+    color:#222;
+    margin-bottom:16px;
+  }
+  .chapter-content p:last-child{margin-bottom:0;}
+  .lede{
+    font-size:19px;
+    font-weight:600;
+    color:var(--black);
+    margin-bottom:18px;
+  }
+
+  /* skill grid */
+  .skill-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:0;
+    border-top:1px solid #ddd9d0;
+    margin-top:8px;
+  }
+  .skill-grid div{
+    padding:13px 0;
+    border-bottom:1px solid #ddd9d0;
+    font-size:15px;
+    font-weight:500;
+  }
+  .skill-grid div:nth-child(odd){padding-right:20px;border-right:1px solid #ddd9d0;}
+  .skill-grid div:nth-child(even){padding-left:20px;}
+
+  /* list with red markers */
+  .redlist{list-style:none;margin-top:6px;}
+  .redlist li{
+    position:relative;
+    padding-left:22px;
+    margin-bottom:11px;
+    font-size:15.5px;
+    color:#222;
+  }
+  .redlist li::before{
+    content:"";
+    background:var(--red);
+    width:8px;
+    height:8px;
+    position:absolute;
+    left:0;
+    top:7px;
+  }
+
+  /* experience roles ch07 */
+  .role-list{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:0;
+    border-top:1px solid #ddd9d0;
+    border-left:1px solid #ddd9d0;
+  }
+  .role{
+    padding:20px 20px;
+    border-right:1px solid #ddd9d0;
+    border-bottom:1px solid #ddd9d0;
+  }
+  .role-top{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:6px;
+    flex-wrap:wrap;
+  }
+  .role-name{font-size:17px;font-weight:800;}
+  .role-status{
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:0.02em;
+    padding:3px 8px;
+    border:1px solid var(--red);
+    color:var(--red);
+  }
+  .role-status.current{background:var(--red);color:var(--white);border-color:var(--red);}
+  .role-title{
+    font-size:13px;
+    color:var(--grey);
+    font-weight:600;
+    margin-bottom:10px;
+  }
+  .role p{font-size:14.5px;color:#333;margin-bottom:0;}
+
+  /* two column split for ch03/04 */
+  .split-two{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:40px;
+  }
+  .split-two h4{
+    font-size:13px;
+    letter-spacing:0.03em;
+    color:var(--grey);
+    font-weight:600;
+    margin-bottom:12px;
+    text-transform:uppercase;
+  }
+
+  /* workflow chain ch06 */
+  .flow{
+    display:flex;
+    flex-wrap:wrap;
+    gap:0;
+    margin:20px 0 26px;
+    font-weight:800;
+    font-size:16px;
+  }
+  .flow span{
+    padding:10px 16px;
+    border:1px solid var(--black);
+  }
+  .flow span.active{background:var(--black);color:var(--white);}
+  .flow .arrow{
+    padding:10px 8px;
+    color:var(--red);
+    font-weight:700;
+    border:none;
+  }
+
+  /* chapter 08 - different band */
+  .band-dark{
+    background:var(--black);
+    color:var(--white);
+    width:100vw;
+    margin-left:calc(50% - 50vw);
+    margin-right:calc(50% - 50vw);
+    padding-top:100px;
+    padding-bottom:100px;
+  }
+  .band-dark .chapter-title{color:var(--white);}
+  .band-dark .chapter-head{border-bottom-color:var(--red);}
+  .band-dark .chapter-content p{color:#d6d6d6;}
+  .band-dark .lede{color:var(--white);}
+  .diff-grid{
+    display:flex;
+    flex-wrap:wrap;
+    gap:1px;
+    margin:28px 0 34px;
+    background:#333;
+    border:1px solid #333;
+    width:100%;
+  }
+  .diff-grid div{
+    flex:1 1 150px;
+    padding:20px 18px;
+    text-align:left;
+    font-weight:700;
+    font-size:15px;
+    background:var(--black);
+  }
+  .diff-grid div.plus{
+    flex:0 0 46px;
+    color:var(--red);
+    font-weight:900;
+    font-size:18px;
+    text-align:center;
+    padding:20px 0;
+  }
+  .lede.big{font-size:26px;line-height:1.45;max-width:none;}
+
+  /* chapter 09 - direction tags */
+  .tag-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-top:18px;
+  }
+  .tag{
+    border:1px solid var(--black);
+    padding:9px 16px;
+    font-size:14px;
+    font-weight:600;
+  }
+  .tag.hi{
+    background:var(--red);
+    border-color:var(--red);
+    color:var(--white);
+  }
+
+  /* footer contact */
+  footer{
+    background:var(--black);
+    color:var(--white);
+    padding:80px 0 60px;
+    text-align:left;
+  }
+  footer .foot-name{
+    font-size:44px;
+    font-weight:900;
+    letter-spacing:-0.02em;
+    margin-bottom:26px;
+  }
+  .foot-contacts{
+    display:flex;
+    gap:0;
+    flex-wrap:wrap;
+    border-top:1px solid #2a2a2a;
+  }
+  .foot-contacts a{
+    flex:1;
+    min-width:180px;
+    padding:22px 0;
+    border-bottom:1px solid #2a2a2a;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    color:var(--white);
+    text-decoration:none;
+  }
+  .foot-contacts a + a{padding-left:28px;}
+  .foot-contacts a:hover .value{color:var(--red);}
+  .foot-contacts .foot-icon{
+    width:26px;
+    height:26px;
+    color:var(--red);
+    flex-shrink:0;
+  }
+  .foot-contacts .foot-icon svg{width:100%;height:100%;}
+  .foot-contacts .label{
+    font-size:12px;
+    color:#999;
+    font-weight:700;
+    letter-spacing:0.03em;
+    margin-bottom:4px;
+  }
+  .foot-contacts .value{
+    font-size:17px;
+    font-weight:600;
+    transition:color .15s ease;
+  }
+
+  @media (max-width:720px){
+    .wrap{padding:0 22px;}
+    .hero-grid{flex-direction:column-reverse;gap:32px;}
+    .hero-photo{width:180px;height:180px;}
+    .split-two{grid-template-columns:1fr;gap:26px;}
+    .skill-grid{grid-template-columns:1fr;}
+    .skill-grid div:nth-child(odd){border-right:none;padding-right:0;}
+    .skill-grid div:nth-child(even){padding-left:0;}
+    .diff-grid{flex-direction:column;}
+    .diff-grid div{border-right:none;border-bottom:1px solid #333;white-space:normal;}
+    .diff-grid div.plus{text-align:left;padding:12px 20px;}
+    .role-list{grid-template-columns:1fr;}
+    .role{border-right:none;}
+    .hero-quote{font-size:19px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div class="hero-text">
+      <div class="hero-eyebrow">WEB3 COMMUNITY &amp; DISCORD SPECIALIST</div>
+      <h1>Himu</h1>
+      <p class="hero-role">Community operations, Discord infrastructure, and the tools that hold a Web3 ecosystem together.</p>
+      <p class="hero-quote">I build, manage, and improve the systems that keep Web3 communities active, organized, and scalable.</p>
+      <div class="hero-contacts">
+        <a class="social-link" href="https://discord.com/users/Himu_XYZ" target="_blank" rel="noopener noreferrer" aria-label="Discord">
+          <span class="social-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.369A19.791 19.791 0 0 0 15.885 3c-.211.375-.444.874-.608 1.267a18.27 18.27 0 0 0-5.487 0A12.6 12.6 0 0 0 9.182 3a19.736 19.736 0 0 0-4.435 1.37C1.87 8.318 1.16 12.157 1.515 15.944a19.9 19.9 0 0 0 5.993 2.98c.484-.65.916-1.34 1.288-2.064a12.9 12.9 0 0 1-2.03-.964c.17-.123.337-.252.498-.384a14.21 14.21 0 0 0 12.09 0c.163.132.33.261.498.384-.646.383-1.324.71-2.032.965.372.724.804 1.414 1.288 2.063a19.83 19.83 0 0 0 5.997-2.98c.417-4.39-.71-8.19-2.788-11.575ZM8.68 13.643c-.926 0-1.686-.849-1.686-1.892 0-1.043.744-1.893 1.686-1.893.95 0 1.71.858 1.686 1.893 0 1.043-.744 1.892-1.686 1.892Zm6.64 0c-.926 0-1.686-.849-1.686-1.892 0-1.043.744-1.893 1.686-1.893.95 0 1.71.858 1.686 1.893 0 1.043-.736 1.892-1.686 1.892Z"/></svg>
+          </span>
+          <span class="social-label">Himu_XYZ</span>
+        </a>
+        <a class="social-link" href="https://t.me/Himu_XYZ" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
+          <span class="social-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.944 4.463a1.5 1.5 0 0 0-1.53-.26L2.7 10.86a1.35 1.35 0 0 0 .073 2.548l4.552 1.44 1.76 5.61c.16.512.68.79 1.176.63.216-.07.4-.207.53-.39l2.56-3.61 4.79 3.55c.6.44 1.46.13 1.63-.6l3.29-14.4a1.5 1.5 0 0 0-.617-1.175ZM9.36 14.29l-1.06 3.39-.99-3.16 9.53-6.86-7.48 6.63Z"/></svg>
+          </span>
+          <span class="social-label">Himu_XYZ</span>
+        </a>
+        <a class="social-link" href="https://x.com/Himu_XYZ" target="_blank" rel="noopener noreferrer" aria-label="X">
+          <span class="social-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.451-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117l11.966 15.644Z"/></svg>
+          </span>
+          <span class="social-label">Himu_XYZ</span>
+        </a>
+      </div>
+    </div>
+    <div class="hero-photo">
+      <img src="https://raw.githubusercontent.com/rio-699/Source/main/6zveWfoF_400x400%20%282%29.jpg" alt="Himu" onerror="this.onerror=null;this.src='https://github.com/rio-699/Source/raw/main/6zveWfoF_400x400%20%282%29.jpg';">
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- CHAPTER 01 -->
+  <section class="chapter">
+    <div class="chapter-head">
+      <div class="chapter-num">01</div>
+      <div class="chapter-title">Who I Am</div>
+    </div>
+    <div class="chapter-body">
+        <div class="chapter-content">
+        <p>I work at the point where Web3 projects and the people who use them actually meet. Hands-on experience running Discord communities, supporting users, and keeping ecosystems organized as they grow, covering everything from onboarding to moderation to the tools that make daily operations possible.</p>
+        <p>Not a chat manager. An operator who understands the product, the people, and the systems connecting them.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHAPTER 02 -->
+  <section class="chapter">
+    <div class="chapter-head">
+      <div class="chapter-num">02</div>
+      <div class="chapter-title">My Core Skills</div>
+    </div>
+    <div class="chapter-body">
+        <div class="chapter-content">
+        <div class="skill-grid">
+          <div>Web3 Community Management</div>
+          <div>Discord Community Operations</div>
+          <div>Discord Server Configuration</div>
+          <div>Discord Role &amp; Permission Management</div>
+          <div>Community Rules &amp; Structure</div>
+          <div>Ticket System Management</div>
+          <div>Anti-Scam &amp; Anti-Raid Setup</div>
+          <div>Discord Bot Management</div>
+          <div>Custom Discord Bot Development</div>
+          <div>Bot Testing &amp; Troubleshooting</div>
+          <div>Community Support</div>
+          <div>Regional Community Management</div>
+          <div>Community Engagement</div>
+          <div>Community Feedback Collection</div>
+          <div>Bug Reporting</div>
+          <div>Product Feedback</div>
+          <div>Community Tool Development</div>
+          <div>Community Workflow Optimization</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHAPTER 03 -->
+  <section class="chapter">
+    <div class="chapter-head">
+      <div class="chapter-num">03</div>
+      <div class="chapter-title">Discord Is My Playground</div>
+    </div>
+    <div class="chapter-body">
+        <div class="chapter-content">
+        <p class="lede">I don't just use Discord. I understand how the entire system works.</p>
+        <div class="split-two">
+          <div>
+            <h4>Structure &amp; Access</h4>
+            <ul class="redlist">
+              <li>Server architecture</li>
+              <li>Roles and permissions</li>
+              <li>Channel structures</li>
+              <li>Verification systems</li>
+              <li>Reaction roles</li>
+              <li>Server onboarding</li>
+              <li>Community access systems</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Operations &amp; Safety</h4>
+            <ul class="redlist">
+              <li>Ticket systems</li>
+              <li>Moderation and security bots</li>
+              <li>Automation and bot configuration</li>
+              <li>Custom bot integration</li>
+              <li>Anti-spam and anti-scam systems</li>
+              <li>Troubleshooting server configuration</li>
+              <li>Improving the overall user experience</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHAPTER 04 -->
+  <section class="chapter">
+    <div class="chapter-head">
+      <div class="chapter-num">04</div>
+      <div class="chapter-title">I Build Tools, Not Just Communities</div>
+    </div>
+    <div class="chapter-body">
+        <div class="chapter-content">
+        <p>I look for the practical tool or system that fixes a real community problem, not the theoretical one.</p>
+        <ul class="redlist">
+          <li>Custom Discord bots</li>
+          <li>Community utility tools</li>
+          <li>Automated community workflows</li>
+          <li>Trader and community tools</li>
+          <li>Product-support utilities</li>
+          <li>Data-driven community tools</li>
+          <li>Bot testing and debugging</li>
+          <li>Building around actual community problems, not hypothetical ones</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHAPTER 05 -->
+  <section class="chapter">
+    <div class="chapter-head">
+      <div class="chapter-num">05</div>
+      <div class="chapter-title">Web3 Tooling &amp; Ecosystem Knowledge</div>
+    </div>
+    <div class="chapter-body">
+        <div class="chapter-content">
+        <p>Not a full-time developer. A technical community operator who understands products, tools, APIs, and data well enough to work closely with engineering teams.</p>
+        <ul class="redlist">
+          <li>Creating and working with Dune dashboards</li>
+          <li>DeFiLlama adapters</li>
+          <li>DeFi ecosystem data</li>
+          <li>On-chain and community analytics</li>
+          <li>Web3 product research</li>
+          <li>Understanding trading and DeFi products</li>
+          <li>Working with APIs and data-driven community tools</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHAPTER 06 -->
+  <section class="chapter">
+    <div class="chapter-head">
+      <div class="chapter-num">06</div>
+      <div class="chapter-title">How I Work</div>
+    </div>
+    <div class="chapter-body">
+        <div class="chapter-content">
+        <div class="flow">
+          <span class="active">Observe</span><span class="arrow">→</span>
+          <span class="active">Identify</span><span class="arrow">→</span>
+          <span class="active">Report</span><span class="arrow">→</span>
+          <span class="active">Improve</span><span class="arrow">→</span>
+          <span class="active">Build</span><span class="arrow">→</span>
+          <span class="active">Test</span>
+        </div>
+        <ul class="redlist">
+          <li>Find problems before they become bigger community issues</li>
+          <li>Collect useful feedback directly from users</li>
+          <li>Communicate problems clearly to the team</li>
+          <li>Suggest practical, workable solutions</li>
+          <li>Test fixes before they ship</li>
+          <li>Build tools when existing solutions fall short</li>
+          <li>Keep communities organized and active</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHAPTER 07 -->
+  <section class="chapter">
+    <div class="chapter-head">
+      <div class="chapter-num">07</div>
+      <div class="chapter-title">Experience</div>
+    </div>
+    <div class="chapter-body">
+        <div class="chapter-content">
+        <div class="role-list">
+          <div class="role">
+            <div class="role-top">
+              <span class="role-name">Popdex</span>
+              <span class="role-status current">Current</span>
+            </div>
+            <div class="role-title">Community Moderator</div>
+            <p>Day-to-day moderation, ticket support, and Discord operations for an active trading community, plus ongoing bot testing and community tool work.</p>
+          </div>
+          <div class="role">
+            <div class="role-top">
+              <span class="role-name">Utexo</span>
+            </div>
+            <div class="role-title">Regional Moderator</div>
+            <p>Regional community moderation, member support, and localized engagement across the project's Discord.</p>
+          </div>
+          <div class="role">
+            <div class="role-top">
+              <span class="role-name">K25.AI</span>
+            </div>
+            <div class="role-title">Community Moderator</div>
+            <p>Community support, moderation, and feedback collection during the project's early community growth.</p>
+          </div>
+        </div>
+        <ul class="redlist" style="margin-top:26px;">
+          <li>Web3 community operations across active ecosystem projects</li>
+          <li>Discord server setup, moderation, and bot systems</li>
+          <li>Direct community support and regional community management</li>
+          <li>Product feedback and bug reporting loops with core teams</li>
+          <li>Community tool builds addressing real, recurring problems</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHAPTER 08 -->
+  <section class="chapter band-dark">
+    <div class="wrap">
+      <div class="chapter-head">
+        <div class="chapter-num">08</div>
+        <div class="chapter-title">What Makes Me Different</div>
+      </div>
+      <div class="chapter-body">
+        <div class="chapter-content">
+          <div class="diff-grid">
+            <div>Community</div>
+            <div class="plus">+</div>
+            <div>Discord</div>
+            <div class="plus">+</div>
+            <div>Tools</div>
+            <div class="plus">+</div>
+            <div>Web3</div>
+            <div class="plus">+</div>
+            <div>Problem Solving</div>
+          </div>
+          <p class="lede big">I understand the people using the product, the community around the product, and the tools that keep that community running.</p>
+          <div class="split-two">
+            <p>Most people are strong in one of these areas. Community, Discord, tools, Web3, problem solving.</p>
+            <p>I operate across all five at once, which is what lets me work close to both the community and the team behind it.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHAPTER 09 -->
+  <section class="chapter" style="border-bottom:none;">
+    <div class="chapter-head">
+      <div class="chapter-num">09</div>
+      <div class="chapter-title">Current Direction</div>
+    </div>
+    <div class="chapter-body">
+        <div class="chapter-content">
+        <p>Looking to work where community, Discord infrastructure, and Web3 products intersect.</p>
+        <div class="tag-row">
+          <span class="tag hi">Web3 Community Manager</span>
+          <span class="tag">Community Manager</span>
+          <span class="tag">Community Lead</span>
+          <span class="tag">Community Operations</span>
+          <span class="tag hi">Discord Specialist</span>
+          <span class="tag">Discord Admin</span>
+          <span class="tag">Moderator</span>
+          <span class="tag">Community Growth</span>
+          <span class="tag">Regional Community Lead</span>
+          <span class="tag">Community &amp; Ecosystem Operations</span>
+          <span class="tag">Web3 Community Tools Specialist</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-name">Himu</div>
+    <div class="foot-contacts">
+      <a href="https://discord.com/users/Himu_XYZ" target="_blank" rel="noopener noreferrer" aria-label="Discord">
+        <span class="foot-icon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.369A19.791 19.791 0 0 0 15.885 3c-.211.375-.444.874-.608 1.267a18.27 18.27 0 0 0-5.487 0A12.6 12.6 0 0 0 9.182 3a19.736 19.736 0 0 0-4.435 1.37C1.87 8.318 1.16 12.157 1.515 15.944a19.9 19.9 0 0 0 5.993 2.98c.484-.65.916-1.34 1.288-2.064a12.9 12.9 0 0 1-2.03-.964c.17-.123.337-.252.498-.384a14.21 14.21 0 0 0 12.09 0c.163.132.33.261.498.384-.646.383-1.324.71-2.032.965.372.724.804 1.414 1.288 2.063a19.83 19.83 0 0 0 5.997-2.98c.417-4.39-.71-8.19-2.788-11.575ZM8.68 13.643c-.926 0-1.686-.849-1.686-1.892 0-1.043.744-1.893 1.686-1.893.95 0 1.71.858 1.686 1.893 0 1.043-.744 1.892-1.686 1.892Zm6.64 0c-.926 0-1.686-.849-1.686-1.892 0-1.043.744-1.893 1.686-1.893.95 0 1.71.858 1.686 1.893 0 1.043-.736 1.892-1.686 1.892Z"/></svg></span>
+        <span><div class="label">DISCORD</div><div class="value">Himu_XYZ</div></span>
+      </a>
+      <a href="https://t.me/Himu_XYZ" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
+        <span class="foot-icon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.944 4.463a1.5 1.5 0 0 0-1.53-.26L2.7 10.86a1.35 1.35 0 0 0 .073 2.548l4.552 1.44 1.76 5.61c.16.512.68.79 1.176.63.216-.07.4-.207.53-.39l2.56-3.61 4.79 3.55c.6.44 1.46.13 1.63-.6l3.29-14.4a1.5 1.5 0 0 0-.617-1.175ZM9.36 14.29l-1.06 3.39-.99-3.16 9.53-6.86-7.48 6.63Z"/></svg></span>
+        <span><div class="label">TELEGRAM</div><div class="value">Himu_XYZ</div></span>
+      </a>
+      <a href="https://x.com/Himu_XYZ" target="_blank" rel="noopener noreferrer" aria-label="X">
+        <span class="foot-icon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.451-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117l11.966 15.644Z"/></svg></span>
+        <span><div class="label">X</div><div class="value">Himu_XYZ</div></span>
+      </a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
